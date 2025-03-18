@@ -1,0 +1,24 @@
+name: CI/CD Workflow Pipeline # First Ever CI/CD Project
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  test_and_deploy_s3_website:  # Fixed job name
+    runs-on: ubuntu-latest  # Corrected indentation
+
+    steps:  # Fixed 'Steps' to 'steps'
+      - name: Checkout
+        uses: actions/checkout@v3  # Fixed version reference
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Deploy Static site to S3 bucket
+        run: aws s3 sync . s3://github-actions-project-15 --delete  # Fixed space in sync command
